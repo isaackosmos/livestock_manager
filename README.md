@@ -19,8 +19,11 @@ classDiagram
         -float __fat_percentage
         -float __vitamins_percentage
         +float score
+        +void score(float)
         +float fat_percentage
+        +void fat_percentage(float)
         +float vitamins_percentage
+        +void vitamins_percentage(float)
         +str __str__()
     }
 
@@ -30,51 +33,56 @@ classDiagram
         -MilkQualityControl __milk_quality_control
         +datetime date
         +float liters
+        +void liters(float)
         +MilkQualityControl milk_quality_control
+        +MilkQualityControl get_milk_quality_control()
+        +void update_milk_quality_control(float, float, float)
+        +void delete_milk_quality_control()
         +str __str__()
     }
 
     class Breed {
     }
 
-    class Bull {
+    class Bovine {
         -EarTag __ear_tag
-        -datetime __birth_date
+        -datetime __birth
         -float __weight
         -Breed __breed
         +EarTag ear_tag
-        +datetime birth_date
-        +float weight
+        +int age
         +Breed breed
+        +float weight
+        +void weight(float)
+        +str __str__()
+    }
+
+    class Bull {
         +str __str__()
     }
 
     class Cow {
-        -EarTag __ear_tag
-        -datetime __birth_date
-        -float __weight
-        -Breed __breed
-        +EarTag ear_tag
-        +datetime birth_date
-        +float weight
-        +Breed breed
-        +str __str__()
         +void add_milk_production(datetime, float, float, float, float)
+        +MilkProduction get_milk_production(datetime)
+        +void update_milk_production(datetime, float, float, float, float)
+        +void delete_milk_production(datetime)
+        +str __str__()
     }
 
     class Herd {
-        -list~Bull~ __bulls
-        -list~Cow~ __cows
-        +void add_cattle(Bull)
-        +void add_cattle(Cow)
+        -list~dict~ __cattle
+        +list~dict~ cattle
+        +void add_cattle(Bovine)
+        +Bovine get_cattle(int)
+        +void update_cattle(int, Bovine)
+        +void delete_cattle(int)
         +str __str__()
     }
 
-    EarTag --> Bull
-    EarTag --> Cow
-    MilkQualityControl --> MilkProduction
-    MilkProduction --> Cow
-    Bull --> Herd
-    Cow --> Herd
-    Breed --> Bull
-    Breed --> Cow
+    Bovine <|-- Bull
+    Bovine <|-- Cow
+    Cow "1" *-- "many" MilkProduction
+    MilkProduction "1" *-- "1" MilkQualityControl
+    Herd "1" *-- "many" Bovine
+    Bovine "1" *-- "1" EarTag
+    Bovine "1" *-- "1" Breed
