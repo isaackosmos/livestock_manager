@@ -20,15 +20,35 @@ def main():
     bull1 = Bull(ear_tag_bull1, datetime(2019, 5, 21), 314.3, Breed.ANGUS)
     cow1 = Cow(ear_tag_cow1, datetime(2021, 3, 15), 320.5, Breed.JERSEY)
 
+    # Criando um bovino com idade negativa
+    print("\n--- Criando um bovino com idade negativa ---")
+    try:
+        ear_tag_bull_error = EarTag(3, "blue")
+        bull_error = Bull(ear_tag_bull_error, datetime(2085, 11, 8), 412.5, Breed.ANGUS)
+        print(f"Bovino criado: {bull_error}")
+    except ValueError as e:
+        print(f"Erro ao criar bovino: {e}")
+
+    # Criando um bovino com peso negativo
+    print("\n--- Criando um bovino com peso negativo ---")
+    try:
+        ear_tag_bull_error2 = EarTag(4, "blue")
+        bull_error2 = Bull(ear_tag_bull_error2, datetime(2015, 1, 14), -200, Breed.ANGUS)
+        print(f"Bovino criado: {bull_error2}")
+    except ValueError as e:
+        print(f"Erro ao criar bovino: {e}")
+
     # Adicionando bovinos ao rebanho
     herd.add_cattle(bull1)
     herd.add_cattle(cow1)
 
     # Lendo um bovino
     print("\n--- Lendo um bovino ---")
-    bovine = herd.get_cattle(1)
-    if bovine:
+    try:
+        bovine = herd.get_cattle(1)
         print(f"Bovino encontrado: {bovine}")
+    except ValueError as e:
+        print(f"Erro ao encontrar bovino: {e}")
 
     # Atualizando um bovino
     print("\n--- Atualizando um bovino ---")
@@ -77,6 +97,7 @@ def main():
         print(f"Erro ao deletar produção de leite: {e}")
 
     print(f"Bovinos no rebanho: {herd}")
+
 
 if __name__ == "__main__":
     main()
